@@ -1,8 +1,12 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\QuizController;
-use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\CategoryApiController;
+use App\Http\Controllers\QuizApiController;
+use App\Http\Controllers\SubjectApiController;
+use App\Http\Controllers\TrendApiController;
+use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\CategoryResource;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,10 +25,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/quiz/{id}', [QuizController::class,'show']);
-Route::get('/{id}/trend', [QuizController::class,'trendPerCategory']);
-Route::get('/trend', [QuizController::class,'trend']);
-Route::get('/subjects', [SubjectController::class,'index']);
-Route::get('/subjects/{id}', [SubjectController::class,'show']);
-Route::get('/categories', [CategoryController::class,'index']);
-Route::get('/categories/{id}', [CategoryController::class,'show']);
+Route::get('test/{category}', function (Category $category) {
+
+});
+Route::get('test', function () {
+    return new CategoryCollection(Category::all());
+});
+Route::resource('quiz', QuizApiController::class);
+Route::resource('trend', TrendApiController::class);
+Route::resource('subjects', SubjectApiController::class);
+Route::resource('categories', CategoryApiController::class);
